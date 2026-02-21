@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nightmare Logic Quiz : The Awakening</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Mitr:wght@300;400;500&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle at center, #1a0000 0%, #000000 80%);
+            color: #d3d3d3;
+            font-family: 'Mitr', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            user-select: none;
+            animation: pulseBackground 8s infinite alternate;
+        }
+
+        @keyframes pulseBackground {
+            0% { background: radial-gradient(circle at center, #1a0000 0%, #000000 80%); }
+            100% { background: radial-gradient(circle at center, #2b0000 0%, #050000 90%); }
+        }
+
+        .vignette {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            box-shadow: inset 0 0 150px rgba(0,0,0,0.9);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        #game-container {
+            width: 90%;
+            max-width: 700px;
+            text-align: center;
+            background: rgba(15, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 50px;
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            border-radius: 15px;
+            box-shadow: 0 0 40px rgba(139, 0, 0, 0.6), inset 0 0 20px rgba(0, 0, 0, 0.8);
+            position: relative;
+            z-index: 10;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            color: #ff1a1a;
+            text-shadow: 0 0 10px #ff0000, 0 0 20px #8b0000;
+            margin-bottom: 20px;
+            font-size: 3rem;
+            letter-spacing: 2px;
+        }
+
+        .instructions {
+            background: rgba(0, 0, 0, 0.7);
+            border-left: 4px solid #8b0000;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: left;
+            font-size: 1.1rem;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+        }
+
+        .instructions h3 {
+            color: #ff4d4d;
+            margin-top: 0;
+            font-weight: 500;
+        }
+
+        .instructions ul {
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
+        }
+
+        p { font-size: 1.3rem; line-height: 1.6; }
+
+        .btn {
+            background: linear-gradient(180deg, #330000 0%, #110000 100%);
+            color: #ffcccc;
+            border: 1px solid #ff3333;
+            padding: 15px 35px;
+            margin-top: 20px;
+            font-size: 1.3rem;
+            font-family: 'Mitr', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .btn:hover {
+            background: linear-gradient(180deg, #660000 0%, #220000 100%);
+            color: #fff;
+            box-shadow: 0 0 25px #ff0000, 0 0 10px #ff0000 inset;
+            transform: scale(1.05);
+        }
+
+        #input-container {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #answer-input {
+            padding: 15px 20px;
+            font-size: 1.5rem;
+            width: 70%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #ff4d4d;
+            border: 2px solid #550000;
+            border-radius: 8px;
+            text-align: center;
+            font-family: 'Mitr', sans-serif;
+            outline: none;
+            transition: 0.3s;
+            box-shadow: inset 0 0 10px rgba(0,0,0,1);
+        }
+
+        #answer-input:focus {
+            border-color: #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5), inset 0 0 15px rgba(255, 0, 0, 0.3);
+            transform: scale(1.02);
+        }
+
+        .hidden { display: none !important; }
+
+        .fade-in-text {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #scare-screen {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: #aa0000;
+            color: black;
+            font-size: 8rem;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            display: flex; justify-content: center; align-items: center;
+            z-index: 9999;
+            opacity: 0.95;
+            text-shadow: 5px 5px 0px #fff, -5px -5px 0px #000;
+        }
+
+        @keyframes violentShake {
+            0% { transform: translate(5px, 5px) rotate(0deg); filter: invert(0); }
+            10% { transform: translate(-5px, -7px) rotate(-3deg); filter: invert(1); }
+            20% { transform: translate(-8px, 0px) rotate(3deg); filter: invert(0); }
+            30% { transform: translate(8px, 6px) rotate(0deg); filter: invert(1); }
+            40% { transform: translate(5px, -5px) rotate(3deg); filter: invert(0); }
+            50% { transform: translate(-5px, 7px) rotate(-3deg); filter: invert(1); }
+            60% { transform: translate(-8px, 4px) rotate(0deg); filter: invert(0); }
+            70% { transform: translate(8px, 4px) rotate(-3deg); filter: invert(1); }
+            80% { transform: translate(-5px, -5px) rotate(3deg); filter: invert(0); }
+            90% { transform: translate(5px, 7px) rotate(0deg); filter: invert(1); }
+            100% { transform: translate(5px, -7px) rotate(-3deg); filter: invert(0); }
+        }
+
+        .shake-active {
+            animation: violentShake 0.1s;
+            animation-iteration-count: infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="vignette"></div>
+
+    <div id="game-container">
+        <div id="start-screen">
+            <h1>NIGHTMARE LOGIC</h1>
+            <div class="instructions">
+                <h3>📜 พันธสัญญาแห่งการเอาชีวิตรอด</h3>
+                <ul>
+                    <li>ด่านทดสอบมีทั้งหมด <b>8 ประตู</b> (เนื้อหาประพจน์ และค่าความจริง)</li>
+                    <li>จงอ่านโจทย์และ <b>พิมพ์คำตอบ</b> ลงในช่องว่างเบื้องหน้า</li>
+                    <li>คีย์เวิร์ดที่ยอมรับ: <b>จริง, เท็จ, T, F, เป็น, ไม่เป็น</b></li>
+                    <li>ตอบถูก = คุณได้ไปต่อ | ตอบผิด = เตรียมใจรับผลกรรม...</li>
+                </ul>
+            </div>
+            <button class="btn" onclick="startGame()" onmouseover="playHoverSound()">เปิดประตูบานแรก</button>
+        </div>
+
+        <div id="quiz-screen" class="hidden">
+            <h2 id="question-text" class="fade-in-text">คำถามจะปรากฏที่นี่</h2>
+            <div id="input-container">
+                <input type="text" id="answer-input" placeholder="จงพิมพ์คำตอบ..." autocomplete="off">
+                <button class="btn" onclick="checkAnswer()" onmouseover="playHoverSound()">ส่งคำตอบ</button>
+            </div>
+        </div>
+
+        <div id="end-screen" class="hidden">
+            <h1>รอดพ้นฝันร้าย</h1>
+            <p>แสงสว่างมาเยือน ตรรกะของคุณแข็งแกร่งพอที่จะทำลายความมืดมิด</p>
+            <button class="btn" onclick="location.reload()" onmouseover="playHoverSound()">ตื่นจากการหลับใหล (เล่นอีกครั้ง)</button>
+        </div>
+    </div>
+
+    <div id="scare-screen" class="hidden">
+        ผิดพลาด!!!
+    </div>
+
+    <script>
+        // --- คลังเสียง (Audio Library) ---
+        const bgm = new Audio("https://actions.google.com/sounds/v1/horror/ambient_hum_scary.ogg");
+        bgm.loop = true;
+        bgm.volume = 0.4;
+
+        const hoverSound = new Audio("https://actions.google.com/sounds/v1/water/water_drop.ogg");
+        hoverSound.volume = 0.3;
+
+        // เสียงใหม่: กดเริ่มเกม
+        const startSound = new Audio("https://actions.google.com/sounds/v1/horror/heavy_door_creak.ogg");
+        startSound.volume = 0.8;
+
+        // เสียงใหม่: เสียงพิมพ์แป้นคีย์บอร์ด
+        const typeSound = new Audio("https://actions.google.com/sounds/v1/foley/pen_click.ogg");
+        typeSound.volume = 0.5;
+
+        // เสียงใหม่: กดส่งคำตอบ
+        const clickSubmitSound = new Audio("https://actions.google.com/sounds/v1/foley/metal_latch.ogg");
+        clickSubmitSound.volume = 0.6;
+
+        const correctSound = new Audio("https://actions.google.com/sounds/v1/science_fiction/sci_fi_confirm.ogg");
+        correctSound.volume = 0.8;
+
+        // เสียงตอนตอบผิด (สยองขึ้น)
+        const scareSound = new Audio("https://actions.google.com/sounds/v1/horror/female_scream.ogg");
+        scareSound.volume = 1.0;
+
+        // --------------------------------
+
+        const questions = [
+            {
+                question: "กำหนดให้ p เป็นจริง (T) และ q เป็นเท็จ (F) <br><br>ค่าความจริงของ p &rarr; q คือสิ่งใด?",
+                correctAnswers: ["เท็จ", "f", "false"]
+            },
+            {
+                question: "ประโยค 'เขาคือผู้ถูกเลือก' ถือว่าเป็นประพจน์หรือไม่? <br><br>(พิมพ์: เป็น / ไม่เป็น)",
+                correctAnswers: ["ไม่เป็น", "ไม่", "no"]
+            },
+            {
+                question: "จงหาค่าความจริงของ p &and; ~p <br>ไม่ว่า p จะเป็นอะไร ค่านี้จะเป็นอะไรเสมอ?",
+                correctAnswers: ["เท็จ", "f", "false"]
+            },
+            {
+                question: "หากรู้ว่า p &rarr; q มีค่าความจริงเป็น 'เท็จ' <br><br>จงบอกค่าความจริงของ p",
+                correctAnswers: ["จริง", "t", "true"]
+            },
+            {
+                question: "จงหาค่าความจริงของ (T &or; F) &harr; F",
+                correctAnswers: ["เท็จ", "f", "false"]
+            },
+            {
+                question: "ประโยค '1 + 1 = 3' เป็นประพจน์หรือไม่? <br><br>(พิมพ์: เป็น / ไม่เป็น)",
+                correctAnswers: ["เป็น", "yes"]
+            },
+            {
+                question: "ถ้า p &harr; q มีค่าความจริงเป็น 'จริง' <br>แสดงว่าค่าความจริงของทั้งสองต้องเป็นอย่างไร? <br><br>(พิมพ์: เหมือนกัน / ต่างกัน)",
+                correctAnswers: ["เหมือนกัน", "เหมือน", "same"]
+            },
+            {
+                question: "ประตูด่านสุดท้าย: <br>หาก p เป็น F และ q เป็น F <br><br>ค่าความจริงของ p &rarr; q จะส่องสว่างเป็นสิ่งใด?",
+                correctAnswers: ["จริง", "t", "true"]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+
+        const startScreen = document.getElementById("start-screen");
+        const quizScreen = document.getElementById("quiz-screen");
+        const endScreen = document.getElementById("end-screen");
+        const scareScreen = document.getElementById("scare-screen");
+        const questionText = document.getElementById("question-text");
+        const answerInput = document.getElementById("answer-input");
+        const body = document.body;
+
+        function playHoverSound() {
+            hoverSound.currentTime = 0;
+            hoverSound.play().catch(e => {}); 
+        }
+
+        // จับเหตุการณ์ตอนผู้เล่นกำลังพิมพ์ (เพิ่มเสียงพิมพ์)
+        answerInput.addEventListener("input", function() {
+            typeSound.currentTime = 0;
+            typeSound.play().catch(e => {});
+        });
+
+        function startGame() {
+            // เล่นเสียงเริ่มเกม
+            startSound.play().catch(e => {});
+
+            startScreen.classList.add("hidden");
+            quizScreen.classList.remove("hidden");
+            bgm.play().catch(e => console.log("รอผู้ใช้อนุญาตเล่นเสียง"));
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const currentQ = questions[currentQuestionIndex];
+            
+            questionText.classList.remove("fade-in-text");
+            void questionText.offsetWidth; 
+            questionText.classList.add("fade-in-text");
+
+            questionText.innerHTML = `<span style="color:#ff4d4d; font-size:1.5rem;">ประตูที่ ${currentQuestionIndex + 1} / 8</span> <br><hr style="border: 1px solid #550000; margin: 20px 0;"><br>${currentQ.question}`;
+            answerInput.value = ""; 
+            answerInput.focus();
+        }
+
+        answerInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") checkAnswer();
+        });
+
+        function checkAnswer() {
+            // เล่นเสียงคลิกส่งคำตอบ
+            clickSubmitSound.currentTime = 0;
+            clickSubmitSound.play().catch(e => {});
+
+            let userAnswer = answerInput.value.trim().toLowerCase();
+            let validAnswers = questions[currentQuestionIndex].correctAnswers;
+
+            if (userAnswer === "") return; 
+
+            if (validAnswers.includes(userAnswer)) {
+                // ตอบถูก
+                setTimeout(() => {
+                    correctSound.currentTime = 0;
+                    correctSound.play();
+                }, 200); // ดีเลย์นิดนึงให้เสียงคลิกปุ่มส่งเล่นก่อน
+
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    loadQuestion();
+                } else {
+                    showEndScreen();
+                }
+            } else {
+                // ตอบผิด
+                triggerScare();
+            }
+        }
+
+        function triggerScare() {
+            // เล่นเสียงกรี๊ด
+            scareSound.currentTime = 0;
+            scareSound.play();
+
+            scareScreen.classList.remove("hidden");
+            body.classList.add("shake-active");
+            answerInput.value = ""; 
+
+            setTimeout(() => {
+                scareScreen.classList.add("hidden");
+                body.classList.remove("shake-active");
+                answerInput.focus();
+            }, 800);
+        }
+
+        function showEndScreen() {
+            quizScreen.classList.add("hidden");
+            endScreen.classList.remove("hidden");
+            
+            let fadeAudio = setInterval(() => {
+                if(bgm.volume > 0.05) {
+                    bgm.volume -= 0.05;
+                } else {
+                    bgm.pause();
+                    clearInterval(fadeAudio);
+                }
+            }, 200);
+        }
+    </script>
+</body>
+</html>
+    
+  </body>
+  
+</html>
